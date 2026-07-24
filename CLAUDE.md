@@ -88,3 +88,28 @@ tool) to get a private link you can share. Fonts fall back to Arial in the hoste
   dev file's `<head>` (which is intentionally stripped from the shareable copy).
 - Prefer rendering repeated rows from a **JS array** over hand-writing markup.
 - Reuse the CSS variables and existing component classes before inventing new ones.
+
+## Working together (READ THIS FIRST)
+
+The entire prototype is **one file** (`team-profile-flow.html`). That makes it portable, but
+it also means **two people editing it can overwrite each other** — there's no per-screen file
+to isolate changes. Follow these rules so nobody loses work:
+
+1. **GitHub is the source of truth.** Always start from the latest version in the repo, not an
+   old copy on your Desktop.
+2. **Never re-upload an old copy over the web.** Web "Upload files" has no merge — the last
+   upload wins and silently clobbers whatever was there. If you edit outside git, first
+   download the current `team-profile-flow.html` from GitHub, edit *that*, then upload it back.
+3. **Prefer branches + Pull Requests** when actively collaborating:
+   - Clone the repo, create a branch (`git checkout -b consumer-view`), add your screens, push,
+     and open a PR. Git merges changes per-line instead of overwriting the whole file.
+   - Or use GitHub's in-browser editor: press `.` on the repo (opens github.dev) or edit a file
+     via the ✏️ pencil, which commits to a branch you can PR — no terminal needed.
+4. **Coordinate before a full-file replace.** If you must swap the whole file (e.g. a
+   regenerated build), tell the other person first so their in-flight changes are merged in.
+5. **Only `team-profile-flow.html` is hand-edited.** `team-profile-prototype-shareable.html` is
+   generated (see the regeneration step above) — regenerate it, don't edit it, and don't let it
+   be the thing you merge.
+
+**Rule of thumb:** small, frequent PRs from branches = safe. Whole-file web re-uploads = risky.
+When in doubt, pull the latest from GitHub before you change anything.
