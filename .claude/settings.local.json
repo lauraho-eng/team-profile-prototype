@@ -1,7 +1,16 @@
 {
   "permissions": {
     "allow": [
-      "mcp__claude_ai_Figma__use_figma"
+      "mcp__claude_ai_Figma__use_figma",
+      "Bash(python3 __TRACKED_VAR__/crop.py 'Participanting agent accepting invite/pro dash - accepted invite - success.png' __TRACKED_VAR__/tonya.png 302 294 100 88)",
+      "Bash(python3 __TRACKED_VAR__/crop.py 'Participanting agent accepting invite/pro dash - accepted invite - success.png' __TRACKED_VAR__/tonya.png 305 291 93 90)",
+      "Bash(python3 -c ' *)",
+      "Bash(awk 'NR<460' team-profile-flow.html)",
+      "Bash(awk 'NR>=460' team-profile-flow.html)",
+      "Bash(python3 - __TRACKED_VAR__/tonya.b64)",
+      "Bash(python3 -)",
+      "Bash(awk 'NR>=2027 && NR<=2045' team-profile-flow.html)",
+      "Bash(awk '/function fillLogos/,/}\\)\\\\\\(\\\\\\);/' team-profile-flow.html)"
     ]
   }
 }
