@@ -556,6 +556,17 @@
   .email-foot .ef-tag{ color:#fff; font-weight:600; margin-bottom:16px; }
   .email-foot a{ color:#cfccc6; text-decoration:underline; }
 
+  /* ===== Intro / landing screen (prototype lands here) ===== */
+  #s-intro{ position:relative; min-height:100vh; background:#1a1816; color:#fff; font-family:'Galano Grotesque Alt',system-ui,sans-serif; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px; }
+  #s-intro .intro-overline{ font-size:14px; font-weight:600; letter-spacing:3px; text-transform:uppercase; margin-bottom:22px; }
+  #s-intro .intro-title{ font-size:48px; font-weight:600; line-height:1.12; letter-spacing:-0.5px; margin:0 0 40px; }
+  #s-intro .intro-link{ font-size:16px; font-weight:500; color:#fff; text-decoration:underline; text-underline-offset:3px; cursor:pointer; }
+  #s-intro .intro-link:hover{ opacity:.85; }
+  #s-intro .intro-logo{ position:absolute; bottom:44px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:8px; }
+  #s-intro .intro-logo svg{ width:150px; height:auto; }
+  #s-intro .pro-pill{ background:#fff; color:#1a1816; font-size:11px; font-weight:700; padding:2px 8px; border-radius:6px; letter-spacing:.5px; }
+  #s-intro.active ~ #menu-toggle{ display:none; }
+
   @media(max-width:900px){
     .form-layout{ grid-template-columns:1fr; } .jump-nav{ position:static; }
     .dashpg .dash-body{ flex-direction:column; } .dashpg .sidenav{ width:100%; }
@@ -566,6 +577,9 @@
 
   /* ===== Mobile (phones) — Daisy client-web guidance: stack, scroll tables, full-width modals ===== */
   @media (max-width:768px){
+    /* Intro / landing */
+    #s-intro .intro-title{ font-size:32px; }
+    #s-intro .intro-overline{ font-size:12px; letter-spacing:2px; }
     /* Global page chrome — clear the fixed hamburger button (top-left) */
     .uwp-header{ height:60px; padding:0 16px 0 68px; }
     .brand-logo{ height:22px; }
@@ -630,8 +644,18 @@
   }
 </style>
 
+<!-- ===== INTRO / LANDING (prototype lands here) ===== -->
+<div class="screen active" id="s-intro">
+  <div class="intro-wrap">
+    <div class="intro-overline">End-to-end walkthrough</div>
+    <h1 class="intro-title">Free Branding<br>Team Profiles Alpha</h1>
+    <a class="intro-link" onclick="go('s-dash')">Get started</a>
+  </div>
+  <div class="intro-logo" id="introLogo"></div>
+</div>
+
 <!-- ===== SCREEN 1 — PRO DASH HOME ===== -->
-<div class="screen active dashpg" id="s-dash">
+<div class="screen dashpg" id="s-dash">
   <div class="utilbar">
     <div class="left">
       <a class="go">Go to realtor.com</a>
@@ -2502,6 +2526,7 @@
     const src = document.querySelector('.brand-logo').src;
     document.querySelectorAll('img[data-fill]').forEach(img=>img.src=src);
     document.getElementById('heroLogo').innerHTML = '<img class="logo-img" src="'+KEYSTONE_LOGO+'" alt="Keystone Realty">';
+    document.getElementById('introLogo').innerHTML = RDC_WHITE_SVG + '<span class="pro-pill">PRO</span>';
     document.getElementById('affTeamLogo').innerHTML = '<img src="'+KEYSTONE_LOGO+'" alt="Keystone Realty">';
     document.getElementById('agentTeamLogo').innerHTML = '<img src="'+BRAND_LOGO+'" alt="Keystone Realty">';
     // Participating-agent dashboard: clone the pro-logo SVG, set Tonya's photo + team logo.
