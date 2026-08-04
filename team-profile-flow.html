@@ -69,6 +69,8 @@
   }
   #side-menu .menu-children a:hover{ background:#f2f1ee; }
   #side-menu .menu-children a.active{ background:#eceae6; color:#1a1917; font-weight:600; }
+  /* Nested sub-nav item (e.g. an email that belongs under the flow above it) */
+  #side-menu .menu-children a.sub{ padding-left:72px; font-size:13px; color:#6b6864; }
   #side-menu .menu-children a .num{ width:22px; height:22px; flex:0 0 auto; border-radius:50%; background:#f2f1ee; color:#4a4844; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; }
   #side-menu .menu-children a.active .num{ background:#dcdad5; color:#1a1917; }
   #menu-scrim{ position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:9996; display:none; }
@@ -1867,10 +1869,11 @@
     </a>
     <div class="menu-children">
       <a data-flow="create" onclick="startFlow('create')">Create team profile</a>
-      <a data-view="email" onclick="openEmail()">Invitation email</a>
-      <a data-flow="manage" onclick="startFlow('manage')">Manage team profile</a>
-      <a data-view="removal" onclick="openRemovalEmail()">Agent removal email</a>
-      <a data-view="membership" onclick="openMembership()">Team membership</a>
+      <a class="sub" data-view="email" onclick="openEmail()">Invitation email</a>
+      <a data-view="editProfile" onclick="openEditProfile()">Edit team profile</a>
+      <a data-view="manageAgents" onclick="openManageAgents()">Manage agents</a>
+      <a class="sub" data-view="removal" onclick="openRemovalEmail()">Agent removal email</a>
+      <a data-view="membership" onclick="openMembership()">View team membership</a>
     </div>
   </div>
   <div class="menu-group">
@@ -1930,6 +1933,22 @@
   }
   // "Manage agents" from the team profile: populated roster only in the manage flow.
   function goManage(){ go(currentFlow==='manage' ? 's-manage-full' : 's-manage'); }
+  // Split of the old "Manage team profile" menu entry into two side-nav items.
+  // Edit team profile → the Branding team profile hub (editing begins from there).
+  function openEditProfile(){
+    currentFlow = 'manage';
+    document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.view==='editProfile'));
+    go('s-profile');
+    toggleMenu();
+  }
+  // Manage agents → anchored on the Branding team profile hub (the agent roster
+  // is reached from there), mirroring the Edit team profile entry.
+  function openManageAgents(){
+    currentFlow = 'manage';
+    document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.view==='manageAgents'));
+    go('s-profile');
+    toggleMenu();
+  }
   // Invitation email — the confirmation the owner receives after inviting an agent.
   function openEmail(){
     currentFlow = '';
