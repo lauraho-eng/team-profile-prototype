@@ -39,8 +39,17 @@
   }
   #menu-toggle:hover{ background:#f7f6f4; }
   #menu-toggle svg{ width:22px; height:22px; }
+  /* "Sample prototype" last-updated card, floating just above the menu button */
+  /* Static footer card inside the side nav — slides in/out with the menu */
+  #proto-stamp{
+    margin:8px 8px 64px;   /* 64px bottom leaves room for the floating menu button */
+    background:#fff; border:1px solid var(--line); border-radius:9px; padding:10px 14px;
+    font-family:'Galano Grotesque Alt', system-ui, sans-serif;
+  }
+  #proto-stamp .ps-title{ font-size:10.5px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:#4a4844; margin-bottom:3px; }
+  #proto-stamp .ps-date{ font-size:12px; color:#4a4844; }
   #side-menu{
-    position:fixed; top:0; left:0; bottom:0; width:300px; z-index:9997;
+    position:fixed; top:0; left:0; bottom:0; width:460px; z-index:9997;
     background:#fff; color:#1a1917; font-family:'Galano Grotesque Alt', system-ui, sans-serif;
     padding:0 14px 24px; transform:translateX(-100%); transition:transform .28s ease;
     box-shadow:0 0 40px rgba(0,0,0,.16); border-right:1px solid var(--line); overflow-y:auto;
@@ -61,12 +70,32 @@
   /* Sample-prototype footer */
   #side-menu .pn-foot{ margin-top:auto; padding:16px 6px 4px; }
   #side-menu .pn-foot .chip{ display:inline-block; background:#eceae6; color:#4a4844; font-size:13px; font-weight:500; padding:8px 16px; border-radius:999px; }
-  /* Preview-size device frames */
-  body.pv-tablet .screen, body.pv-mobile .screen{ margin:0 auto; box-shadow:0 0 0 1px var(--line), 0 12px 40px rgba(0,0,0,.14); }
-  body.pv-tablet{ background:#dcdad5; }
-  body.pv-mobile{ background:#dcdad5; }
-  body.pv-tablet .screen{ max-width:834px; }
-  body.pv-mobile .screen{ max-width:390px; }
+  /* Preview-size device frames — real device dimensions; content scrolls inside the frame */
+  body.pv-tablet, body.pv-mobile{ background:#f2f0ef; padding:28px 0; }
+  body.pv-tablet .screen, body.pv-mobile .screen{
+    margin:0 auto; min-height:0; position:relative; transform:translate(0);
+    overflow-y:auto; overflow-x:hidden; border-radius:28px;
+    box-shadow:0 0 0 1px var(--line), 0 18px 50px rgba(0,0,0,.18);
+  }
+  body.pv-tablet .screen{ width:768px; max-width:768px; height:1024px; }   /* iPad (portrait) */
+  body.pv-mobile .screen{ width:390px; max-width:390px; height:844px; }    /* iPhone 12 Pro */
+  /* Screens that force full viewport height must fit the frame instead */
+  body.pv-tablet #s-intro, body.pv-mobile #s-intro{ min-height:0; }
+  body.pv-tablet .uwp, body.pv-mobile .uwp{ min-height:100%; }
+  /* Device frames: thin scrollbar that sits inside the rounded frame */
+  body.pv-tablet .screen, body.pv-mobile .screen{ scrollbar-width:thin; scrollbar-color:rgba(0,0,0,.28) transparent; }
+  body.pv-tablet .screen::-webkit-scrollbar, body.pv-mobile .screen::-webkit-scrollbar{ width:6px; }
+  body.pv-tablet .screen::-webkit-scrollbar-track, body.pv-mobile .screen::-webkit-scrollbar-track{ background:transparent; }
+  body.pv-tablet .screen::-webkit-scrollbar-thumb, body.pv-mobile .screen::-webkit-scrollbar-thumb{ background:rgba(0,0,0,.28); border-radius:999px; }
+  /* Device frames: pin the header (top) and the action footer (bottom); only the middle scrolls */
+  body.pv-tablet .uwp-header, body.pv-mobile .uwp-header,
+  body.pv-tablet .ph-top, body.pv-mobile .ph-top,
+  body.pv-tablet .dashpg .topbar, body.pv-mobile .dashpg .topbar{
+    position:sticky; top:0; z-index:30; background:#fff;
+  }
+  body.pv-tablet .form-footer, body.pv-mobile .form-footer{
+    position:sticky; top:auto; left:auto; right:auto; bottom:0; z-index:30;
+  }
   /* Drawer parent (click to open its child pages) */
   #side-menu .menu-parent{
     display:flex; align-items:center; gap:12px; padding:13px 14px; margin-bottom:2px;
@@ -157,6 +186,7 @@
   .form-layout{ display:grid; grid-template-columns:230px 1fr; gap:48px; margin-top:34px; }
   .jump-nav{ position:sticky; top:24px; align-self:start; }
   .jump-label{ font-size:14px; color:var(--muted); padding:6px 18px; }
+  .jump-toggle{ display:none; }   /* mobile-only dropdown header */
   .jump-nav a{ display:block; padding:13px 18px; font-size:15px; color:#3a3833; cursor:pointer; border-left:3px solid transparent; text-decoration:none; }
   .jump-nav a:hover{ background:#f7f6f4; }
   .jump-nav a.active{ background:#f2f1ee; border-left-color:#111; font-weight:600; color:#111; }
@@ -430,6 +460,9 @@
   .progress-track{ height:12px; background:#e9e7e2; border-radius:999px; overflow:hidden; }
   .progress-fill{ height:100%; background:#2a7e3b; border-radius:999px; transition:width .5s ease; }
   .score-pct{ font-size:16px; font-weight:600; margin-top:12px; }
+  .score-improve{ border-top:1px solid var(--line); margin-top:20px; padding-top:18px; display:flex; flex-direction:column; gap:14px; align-items:flex-start; }
+  .score-improve a{ font-size:15px; color:#111; text-decoration:underline; cursor:pointer; }
+  .score-improve .si-lead{ font-weight:600; }
 
   /* ===== Agents table ===== */
   .agents-panel{ border:1px solid var(--line); border-radius:14px; overflow:hidden; }
@@ -602,13 +635,13 @@
     #s-intro .intro-title{ font-size:32px; }
     #s-intro .intro-overline{ font-size:12px; letter-spacing:2px; }
     /* Global page chrome — clear the fixed hamburger button (top-left) */
-    .uwp-header{ height:60px; padding:0 16px 0 68px; }
+    .uwp-header{ height:60px; padding:0 16px; }
     .brand-logo{ height:22px; }
     .uwp-main{ padding:20px 16px 120px; }
     .page-title{ font-size:26px; }
     .page-sub{ font-size:14px; }
     .card{ padding:20px 18px; }
-    #side-menu{ width:86vw; max-width:320px; }
+    #side-menu{ width:460px; max-width:none; }
 
     /* Create/edit form */
     .two-col{ grid-template-columns:1fr; }
@@ -640,14 +673,14 @@
     .dashpg .notice .ntext{ flex:1 1 100%; }
     .dashpg .utilbar{ font-size:11px; padding:6px 12px; }
     .dashpg .utilbar .left{ display:none; }
-    .dashpg .topbar{ height:56px; padding:0 16px 0 68px; }
+    .dashpg .topbar{ height:56px; padding:0 16px; }
     .dashpg .logo .pro-logo{ width:150px; height:auto; }
     .dashpg .welcome{ font-size:12px; gap:8px; }
     .dashpg .welcome img{ width:30px; height:30px; }
     .dashpg .dash-main{ padding:18px 16px 60px; }
 
     /* Real Pro Dash — Active agents */
-    #s-active .ph-top{ padding:0 16px 0 68px; }
+    #s-active .ph-top{ padding:0 16px; }
     #s-active .ph-main{ padding:20px 16px 50px; }
     #s-active .ph-h1{ font-size:26px; }
     #s-active .ph-nav{ display:none; }
@@ -665,54 +698,67 @@
   }
 
   /* ==== Mobile-web PREVIEW: mirror of the max-width:768px rules, toggled by the Preview size tab ==== */
-  body.pv-mobile #s-intro .intro-title{font-size:32px;}
-  body.pv-mobile #s-intro .intro-overline{font-size:12px; letter-spacing:2px;}
-  body.pv-mobile .uwp-header{height:60px; padding:0 16px 0 68px;}
-  body.pv-mobile .brand-logo{height:22px;}
-  body.pv-mobile .uwp-main{padding:20px 16px 120px;}
-  body.pv-mobile .page-title{font-size:26px;}
-  body.pv-mobile .page-sub{font-size:14px;}
-  body.pv-mobile .card{padding:20px 18px;}
-  body.pv-mobile #side-menu{width:86vw; max-width:320px;}
-  body.pv-mobile .two-col{grid-template-columns:1fr;}
-  body.pv-mobile .row-field, body.pv-mobile .row-field.with-del{grid-template-columns:1fr; gap:10px;}
-  body.pv-mobile .url-row{grid-template-columns:1fr;}
-  body.pv-mobile .photo-row{flex-wrap:wrap;}
-  body.pv-mobile .form-footer{height:auto; min-height:70px; padding:12px 16px; flex-wrap:wrap; gap:10px;}
-  body.pv-mobile .form-footer > div{width:100%; display:flex; gap:12px;}
-  body.pv-mobile .form-footer .btn-dark, body.pv-mobile .form-footer .btn-outline{flex:1; text-align:center;}
-  body.pv-mobile .agents-panel{overflow-x:auto;}
-  body.pv-mobile .agents-panel-head{flex-wrap:wrap; gap:12px;}
-  body.pv-mobile .atable{min-width:620px;}
-  body.pv-mobile .atable th, body.pv-mobile .atable td{padding:14px 16px;}
-  body.pv-mobile .atable-foot{flex-wrap:wrap; gap:14px;}
-  body.pv-mobile .score-actions{flex-wrap:wrap; gap:12px;}
-  body.pv-mobile .aff-tabs{gap:20px; overflow-x:auto;}
-  body.pv-mobile .aff-tab{white-space:nowrap;}
-  body.pv-mobile .team-card{flex-direction:column; align-items:flex-start; gap:16px;}
-  body.pv-mobile .team-card > div:last-child{width:100%; flex-wrap:wrap;}
-  body.pv-mobile .dashpg .sidenav{display:none;}
-  body.pv-mobile .dashpg .card-row{flex-direction:column;}
-  body.pv-mobile .dashpg .notice{flex-wrap:wrap; padding:18px 20px; gap:6px 12px;}
-  body.pv-mobile .dashpg .notice .ntext{flex:1 1 100%;}
-  body.pv-mobile .dashpg .utilbar{font-size:11px; padding:6px 12px;}
-  body.pv-mobile .dashpg .utilbar .left{display:none;}
-  body.pv-mobile .dashpg .topbar{height:56px; padding:0 16px 0 68px;}
-  body.pv-mobile .dashpg .logo .pro-logo{width:150px; height:auto;}
-  body.pv-mobile .dashpg .welcome{font-size:12px; gap:8px;}
-  body.pv-mobile .dashpg .welcome img{width:30px; height:30px;}
-  body.pv-mobile .dashpg .dash-main{padding:18px 16px 60px;}
-  body.pv-mobile #s-active .ph-top{padding:0 16px 0 68px;}
-  body.pv-mobile #s-active .ph-main{padding:20px 16px 50px;}
-  body.pv-mobile #s-active .ph-h1{font-size:26px;}
-  body.pv-mobile #s-active .ph-nav{display:none;}
-  body.pv-mobile #s-active .ph-panel{overflow-x:auto;}
-  body.pv-mobile #s-active .ptable{min-width:760px;}
-  body.pv-mobile #s-active .ph-toolbar{flex-wrap:wrap;}
-  body.pv-mobile #s-active .ph-search{max-width:none; flex:1 1 100%;}
-  body.pv-mobile .modal, body.pv-mobile .invite-modal{width:calc(100% - 24px); max-width:none; margin-top:6vh; padding:24px 20px;}
-  body.pv-mobile .modal-head h2, body.pv-mobile .invite-modal h2{font-size:20px;}
-  body.pv-mobile .email-h1{font-size:24px;}
+  body.pv-narrow #s-intro .intro-title{font-size:32px;}
+  body.pv-narrow #s-intro .intro-overline{font-size:12px; letter-spacing:2px;}
+  body.pv-narrow .uwp-header{height:60px; padding:0 16px;}
+  body.pv-narrow .brand-logo{height:22px;}
+  body.pv-narrow .uwp-main{padding:20px 16px 120px;}
+  body.pv-narrow .page-title{font-size:26px;}
+  body.pv-narrow .page-sub{font-size:14px;}
+  body.pv-narrow .card{padding:20px 18px;}
+  body.pv-narrow #side-menu{width:460px; max-width:none;}
+  body.pv-narrow .two-col{grid-template-columns:1fr;}
+  body.pv-narrow .row-field, body.pv-narrow .row-field.with-del{grid-template-columns:1fr; gap:10px;}
+  body.pv-narrow .url-row{grid-template-columns:1fr;}
+  body.pv-narrow .photo-row{flex-wrap:wrap;}
+  body.pv-narrow .form-footer{height:auto; min-height:70px; padding:12px 16px; flex-wrap:wrap; gap:10px;}
+  body.pv-narrow .form-footer > div{width:100%; display:flex; gap:12px;}
+  body.pv-narrow .form-footer .btn-dark, body.pv-narrow .form-footer .btn-outline{flex:1; text-align:center;}
+  body.pv-narrow .agents-panel{overflow-x:auto;}
+  body.pv-narrow .agents-panel-head{flex-wrap:wrap; gap:12px;}
+  body.pv-narrow .atable{min-width:620px;}
+  body.pv-narrow .atable th, body.pv-narrow .atable td{padding:14px 16px;}
+  body.pv-narrow .atable-foot{flex-wrap:wrap; gap:14px;}
+  body.pv-narrow .score-actions{flex-direction:column-reverse; align-items:stretch; gap:12px;}
+  body.pv-narrow .score-actions .btn-icon-dark, body.pv-narrow .score-actions .btn-icon-outline{width:100%; justify-content:center;}
+  body.pv-narrow .score-actions .link-btn{align-self:center; margin-top:4px;}
+  body.pv-narrow .aff-tabs{gap:20px; overflow-x:auto;}
+  body.pv-narrow .aff-tab{white-space:nowrap;}
+  body.pv-narrow .team-card{flex-direction:column; align-items:flex-start; gap:16px;}
+  body.pv-narrow .team-card > div:last-child{width:100%; flex-wrap:wrap;}
+  body.pv-narrow .dashpg .sidenav{display:none;}
+  body.pv-narrow .dashpg .card-row{flex-direction:column;}
+  body.pv-narrow .dashpg .notice{flex-wrap:wrap; padding:18px 20px; gap:6px 12px;}
+  body.pv-narrow .dashpg .notice .ntext{flex:1 1 100%;}
+  body.pv-narrow .dashpg .utilbar{font-size:11px; padding:6px 12px;}
+  body.pv-narrow .dashpg .utilbar .left{display:none;}
+  body.pv-narrow .dashpg .topbar{height:56px; padding:0 16px;}
+  body.pv-narrow .dashpg .logo .pro-logo{width:150px; height:auto;}
+  body.pv-narrow .dashpg .welcome{font-size:12px; gap:8px;}
+  body.pv-narrow .dashpg .welcome img{width:30px; height:30px;}
+  body.pv-narrow .dashpg .dash-main{padding:18px 16px 60px;}
+  body.pv-narrow #s-active .ph-top{padding:0 16px;}
+  body.pv-narrow #s-active .ph-main{padding:20px 16px 50px;}
+  body.pv-narrow #s-active .ph-h1{font-size:26px;}
+  body.pv-narrow #s-active .ph-nav{display:none;}
+  body.pv-narrow #s-active .ph-panel{overflow-x:auto;}
+  body.pv-narrow #s-active .ptable{min-width:760px;}
+  body.pv-narrow #s-active .ph-toolbar{flex-wrap:wrap;}
+  body.pv-narrow #s-active .ph-search{max-width:none; flex:1 1 100%;}
+  body.pv-narrow .modal, body.pv-narrow .invite-modal{width:calc(100% - 24px); max-width:none; margin-top:6vh; padding:24px 20px;}
+  body.pv-narrow .modal-head h2, body.pv-narrow .invite-modal h2{font-size:20px;}
+  body.pv-narrow .email-h1{font-size:24px;}
+  body.pv-narrow .form-layout{grid-template-columns:1fr;}
+  body.pv-narrow .jump-nav{position:static; border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-bottom:24px;}
+  body.pv-narrow .jump-label{display:none;}
+  body.pv-narrow .jump-toggle{display:flex; width:100%; align-items:center; justify-content:space-between; background:none; border:none; padding:15px 18px; font-size:16px; font-weight:600; font-family:inherit; color:#111; cursor:pointer;}
+  body.pv-narrow .jump-toggle svg{width:20px; height:20px; transition:transform .18s ease;}
+  body.pv-narrow .jump-nav.open .jump-toggle svg{transform:rotate(180deg);}
+  body.pv-narrow .jump-nav a{display:none; border-left:none; border-top:1px solid var(--line);}
+  body.pv-narrow .jump-nav.open a{display:block;}
+  body.pv-narrow .dashpg .dash-body{flex-direction:column;}
+  body.pv-narrow .view-body{grid-template-columns:1fr;}
+  body.pv-narrow .team-hero{flex-direction:column; align-items:flex-start;}
 
 </style>
 
@@ -902,6 +948,7 @@
       <div class="form-layout">
         <nav class="jump-nav">
           <div class="jump-label">Jump to</div>
+          <button class="jump-toggle" onclick="toggleJump(this)"><span class="jt-label">Team details</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
           <a class="active" onclick="jumpTo(this,'team-details')">Team details</a>
           <a onclick="jumpTo(this,'agents')">Agents</a>
           <a onclick="jumpTo(this,'credibility')">Credibility</a>
@@ -1520,11 +1567,17 @@
         </div>
         <div class="progress-track"><div class="progress-fill" style="width:100%;"></div></div>
         <div class="score-pct">100%</div>
+        <div class="score-improve">
+          <a class="si-lead" onclick="showToast('Score breakdown')">How can I increase my score?</a>
+          <a onclick="go('s-form')">Years of experience</a>
+          <a onclick="go('s-form')">Specialties</a>
+        </div>
       </div>
 
       <div class="form-layout">
         <nav class="jump-nav">
           <div class="jump-label">Jump to</div>
+          <button class="jump-toggle" onclick="toggleJump(this)"><span class="jt-label">Team details</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
           <a class="active" onclick="jumpTo(this,'p-team-details')">Team details</a>
           <a onclick="jumpTo(this,'p-agents')">Agents</a>
           <a onclick="jumpTo(this,'p-credibility')">Credibility</a>
@@ -1988,7 +2041,10 @@
     </div>
   </div>
   </div><!-- /.pn-body -->
-  <div class="pn-foot"><span class="chip">Sample prototype · <span id="pnUpdated"></span></span></div>
+  <div id="proto-stamp">
+    <div class="ps-title">Sample prototype</div>
+    <div class="ps-date">Last updated: <span id="stampDate"></span></div>
+  </div>
 </nav>
 
 <script>
@@ -2031,8 +2087,9 @@
   // Preview size tabs: Web = full width; iPad/Mobile constrain into a device frame
   // and (mobile) trigger the responsive breakpoints we already built.
   function setPreview(size, el){
-    document.body.classList.remove('pv-web','pv-tablet','pv-mobile');
+    document.body.classList.remove('pv-web','pv-tablet','pv-mobile','pv-narrow');
     document.body.classList.add('pv-'+size);
+    if(size==='tablet' || size==='mobile') document.body.classList.add('pv-narrow');  // shared responsive layout
     el.parentElement.querySelectorAll('.pn-tab').forEach(t=>t.classList.toggle('active', t===el));
     window.scrollTo(0,0);
   }
@@ -2237,10 +2294,15 @@
   function tryLeave(){ openModal('m-discard'); }
 
   function jumpTo(el, id){
-    el.closest('.jump-nav').querySelectorAll('a').forEach(a=>a.classList.remove('active'));
+    const nav = el.closest('.jump-nav');
+    nav.querySelectorAll('a').forEach(a=>a.classList.remove('active'));
     el.classList.add('active');
+    const lbl = nav.querySelector('.jt-label'); if(lbl) lbl.textContent = el.textContent;
+    nav.classList.remove('open');   // collapse the mobile dropdown after choosing
     document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
   }
+  // Mobile jump-nav dropdown toggle
+  function toggleJump(btn){ btn.closest('.jump-nav').classList.toggle('open'); }
 
   const areas = [];
   function renderAreas(){
@@ -2626,11 +2688,11 @@
     document.querySelectorAll('img[data-fill]').forEach(img=>img.src=src);
     document.getElementById('heroLogo').innerHTML = '<img class="logo-img" src="'+KEYSTONE_LOGO+'" alt="Keystone Realty">';
     document.getElementById('introLogo').innerHTML = RDC_WHITE_SVG + '<span class="pro-pill">PRO</span>';
-    // "Sample prototype" footer: show when this file was last updated
+    // "Sample prototype" card: show when this file was last updated (date only)
     (function(){
       var lm = new Date(document.lastModified);
-      var txt = isNaN(lm) ? '' : lm.toLocaleString('en-US',{month:'numeric',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
-      var el = document.getElementById('pnUpdated'); if(el) el.textContent = txt || document.lastModified;
+      var txt = isNaN(lm) ? '' : lm.toLocaleDateString('en-US',{month:'numeric',day:'numeric',year:'numeric'});
+      var el = document.getElementById('stampDate'); if(el) el.textContent = txt || document.lastModified;
     })();
     document.getElementById('affTeamLogo').innerHTML = '<img src="'+KEYSTONE_LOGO+'" alt="Keystone Realty">';
     document.getElementById('agentTeamLogo').innerHTML = '<img src="'+BRAND_LOGO+'" alt="Keystone Realty">';
