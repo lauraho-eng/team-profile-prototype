@@ -32,20 +32,70 @@
 
   /* Flow side menu */
   #menu-toggle{
-    position:fixed; top:16px; left:16px; z-index:9998;
-    width:44px; height:44px; border-radius:12px; border:none; cursor:pointer;
-    background:#fff; color:var(--ink-2); display:flex; align-items:center; justify-content:center;
-    box-shadow:0 4px 14px rgba(0,0,0,.20), 0 1px 3px rgba(0,0,0,.14);
+    position:fixed; bottom:22px; left:22px; z-index:9998;
+    width:52px; height:52px; border-radius:50%; border:none; cursor:pointer;
+    background:#fff; color:var(--ink); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 3px 12px rgba(0,0,0,.14), 0 1px 3px rgba(0,0,0,.10);
   }
-  #menu-toggle:hover{ color:var(--ink); }
+  #menu-toggle:hover{ background:#f7f6f4; }
   #menu-toggle svg{ width:22px; height:22px; }
+  /* "Sample prototype" last-updated card, floating just above the menu button */
+  /* Static footer card inside the side nav — slides in/out with the menu */
+  #proto-stamp{
+    margin:8px 8px 64px;   /* 64px bottom leaves room for the floating menu button */
+    background:#fff; border:1px solid var(--line); border-radius:9px; padding:10px 14px;
+    font-family:'Galano Grotesque Alt', system-ui, sans-serif;
+  }
+  #proto-stamp .ps-title{ font-size:10.5px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:#4a4844; margin-bottom:3px; }
+  #proto-stamp .ps-date{ font-size:12px; color:#4a4844; }
   #side-menu{
-    position:fixed; top:0; left:0; bottom:0; width:280px; z-index:9997;
+    position:fixed; top:0; left:0; bottom:0; width:460px; z-index:9997;
     background:#fff; color:#1a1917; font-family:'Galano Grotesque Alt', system-ui, sans-serif;
-    padding:80px 14px 24px; transform:translateX(-100%); transition:transform .28s ease;
+    padding:0 14px 24px; transform:translateX(-100%); transition:transform .28s ease;
     box-shadow:0 0 40px rgba(0,0,0,.16); border-right:1px solid var(--line); overflow-y:auto;
+    display:flex; flex-direction:column;
   }
   #side-menu.open{ transform:translateX(0); }
+  /* Panel header */
+  #side-menu .pn-head{ display:flex; align-items:center; justify-content:space-between; padding:20px 6px 14px; }
+  #side-menu .pn-head h2{ font-size:20px; font-weight:600; }
+  #side-menu .pn-close{ background:none; border:none; cursor:pointer; font-size:20px; line-height:1; color:#1a1917; padding:4px; }
+  /* Preview-size segmented control */
+  #side-menu .pn-preview{ padding:4px 6px 16px; }
+  #side-menu .pn-label{ display:block; font-size:12px; font-weight:600; color:var(--muted); margin-bottom:8px; }
+  #side-menu .pn-tabs{ display:flex; background:#f2f1ee; border-radius:999px; padding:4px; }
+  #side-menu .pn-tab{ flex:1; border:none; background:none; cursor:pointer; font-family:inherit; font-size:13px; font-weight:600; color:#4a4844; padding:8px 6px; border-radius:999px; }
+  #side-menu .pn-tab.active{ background:#fff; color:#1a1917; box-shadow:0 1px 3px rgba(0,0,0,.12); }
+  #side-menu .pn-body{ flex:1 1 auto; }
+  /* Sample-prototype footer */
+  #side-menu .pn-foot{ margin-top:auto; padding:16px 6px 4px; }
+  #side-menu .pn-foot .chip{ display:inline-block; background:#eceae6; color:#4a4844; font-size:13px; font-weight:500; padding:8px 16px; border-radius:999px; }
+  /* Preview-size device frames — real device dimensions; content scrolls inside the frame */
+  body.pv-tablet, body.pv-mobile{ background:#f2f0ef; padding:28px 0; }
+  body.pv-tablet .screen, body.pv-mobile .screen{
+    margin:0 auto; min-height:0; position:relative; transform:translate(0);
+    overflow-y:auto; overflow-x:hidden; border-radius:28px;
+    box-shadow:0 0 0 1px var(--line), 0 18px 50px rgba(0,0,0,.18);
+  }
+  body.pv-tablet .screen{ width:768px; max-width:768px; height:1024px; }   /* iPad (portrait) */
+  body.pv-mobile .screen{ width:390px; max-width:390px; height:844px; }    /* iPhone 12 Pro */
+  /* Screens that force full viewport height must fit the frame instead */
+  body.pv-tablet #s-intro, body.pv-mobile #s-intro{ min-height:0; }
+  body.pv-tablet .uwp, body.pv-mobile .uwp{ min-height:100%; }
+  /* Device frames: thin scrollbar that sits inside the rounded frame */
+  body.pv-tablet .screen, body.pv-mobile .screen{ scrollbar-width:thin; scrollbar-color:rgba(0,0,0,.28) transparent; }
+  body.pv-tablet .screen::-webkit-scrollbar, body.pv-mobile .screen::-webkit-scrollbar{ width:6px; }
+  body.pv-tablet .screen::-webkit-scrollbar-track, body.pv-mobile .screen::-webkit-scrollbar-track{ background:transparent; }
+  body.pv-tablet .screen::-webkit-scrollbar-thumb, body.pv-mobile .screen::-webkit-scrollbar-thumb{ background:rgba(0,0,0,.28); border-radius:999px; }
+  /* Device frames: pin the header (top) and the action footer (bottom); only the middle scrolls */
+  body.pv-tablet .uwp-header, body.pv-mobile .uwp-header,
+  body.pv-tablet .ph-top, body.pv-mobile .ph-top,
+  body.pv-tablet .dashpg .topbar, body.pv-mobile .dashpg .topbar{
+    position:sticky; top:0; z-index:30; background:#fff;
+  }
+  body.pv-tablet .form-footer, body.pv-mobile .form-footer{
+    position:sticky; top:auto; left:auto; right:auto; bottom:0; z-index:30;
+  }
   /* Drawer parent (click to open its child pages) */
   #side-menu .menu-parent{
     display:flex; align-items:center; gap:12px; padding:13px 14px; margin-bottom:2px;
@@ -138,6 +188,7 @@
   .form-layout{ display:grid; grid-template-columns:230px 1fr; gap:48px; margin-top:34px; }
   .jump-nav{ position:sticky; top:24px; align-self:start; }
   .jump-label{ font-size:14px; color:var(--muted); padding:6px 18px; }
+  .jump-toggle{ display:none; }   /* mobile-only dropdown header */
   .jump-nav a{ display:block; padding:13px 18px; font-size:15px; color:#3a3833; cursor:pointer; border-left:3px solid transparent; text-decoration:none; }
   .jump-nav a:hover{ background:#f7f6f4; }
   .jump-nav a.active{ background:#f2f1ee; border-left-color:#111; font-weight:600; color:#111; }
@@ -411,6 +462,9 @@
   .progress-track{ height:12px; background:#e9e7e2; border-radius:999px; overflow:hidden; }
   .progress-fill{ height:100%; background:#2a7e3b; border-radius:999px; transition:width .5s ease; }
   .score-pct{ font-size:16px; font-weight:600; margin-top:12px; }
+  .score-improve{ border-top:1px solid var(--line); margin-top:20px; padding-top:18px; display:flex; flex-direction:column; gap:14px; align-items:flex-start; }
+  .score-improve a{ font-size:15px; color:#111; text-decoration:underline; cursor:pointer; }
+  .score-improve .si-lead{ font-weight:600; }
 
   /* ===== Agents table ===== */
   .agents-panel{ border:1px solid var(--line); border-radius:14px; overflow:hidden; }
@@ -558,6 +612,17 @@
   .email-foot .ef-tag{ color:#fff; font-weight:600; margin-bottom:16px; }
   .email-foot a{ color:#cfccc6; text-decoration:underline; }
 
+  /* ===== Intro / landing screen (prototype lands here) ===== */
+  #s-intro{ position:relative; min-height:100vh; background:#1a1816; color:#fff; font-family:'Galano Grotesque Alt',system-ui,sans-serif; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px; }
+  #s-intro.active{ display:flex; }   /* flex only when active — otherwise .screen{display:none} hides it */
+  #s-intro .intro-overline{ font-size:14px; font-weight:600; letter-spacing:3px; text-transform:uppercase; margin-bottom:22px; }
+  #s-intro .intro-title{ font-size:48px; font-weight:600; line-height:1.12; letter-spacing:-0.5px; margin:0 0 40px; }
+  #s-intro .intro-link{ font-size:16px; font-weight:500; color:#fff; text-decoration:underline; text-underline-offset:3px; cursor:pointer; }
+  #s-intro .intro-link:hover{ opacity:.85; }
+  #s-intro .intro-logo{ position:absolute; bottom:44px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:8px; }
+  #s-intro .intro-logo svg{ width:150px; height:auto; }
+  #s-intro .pro-pill{ background:#fff; color:#1a1816; font-size:11px; font-weight:700; padding:2px 8px; border-radius:6px; letter-spacing:.5px; }
+
   @media(max-width:900px){
     .form-layout{ grid-template-columns:1fr; } .jump-nav{ position:static; }
     .dashpg .dash-body{ flex-direction:column; } .dashpg .sidenav{ width:100%; }
@@ -568,14 +633,17 @@
 
   /* ===== Mobile (phones) — Daisy client-web guidance: stack, scroll tables, full-width modals ===== */
   @media (max-width:768px){
+    /* Intro / landing */
+    #s-intro .intro-title{ font-size:32px; }
+    #s-intro .intro-overline{ font-size:12px; letter-spacing:2px; }
     /* Global page chrome — clear the fixed hamburger button (top-left) */
-    .uwp-header{ height:60px; padding:0 16px 0 68px; }
+    .uwp-header{ height:60px; padding:0 16px; }
     .brand-logo{ height:22px; }
     .uwp-main{ padding:20px 16px 120px; }
     .page-title{ font-size:26px; }
     .page-sub{ font-size:14px; }
     .card{ padding:20px 18px; }
-    #side-menu{ width:86vw; max-width:320px; }
+    #side-menu{ width:460px; max-width:none; }
 
     /* Create/edit form */
     .two-col{ grid-template-columns:1fr; }
@@ -607,14 +675,14 @@
     .dashpg .notice .ntext{ flex:1 1 100%; }
     .dashpg .utilbar{ font-size:11px; padding:6px 12px; }
     .dashpg .utilbar .left{ display:none; }
-    .dashpg .topbar{ height:56px; padding:0 16px 0 68px; }
+    .dashpg .topbar{ height:56px; padding:0 16px; }
     .dashpg .logo .pro-logo{ width:150px; height:auto; }
     .dashpg .welcome{ font-size:12px; gap:8px; }
     .dashpg .welcome img{ width:30px; height:30px; }
     .dashpg .dash-main{ padding:18px 16px 60px; }
 
     /* Real Pro Dash — Active agents */
-    #s-active .ph-top{ padding:0 16px 0 68px; }
+    #s-active .ph-top{ padding:0 16px; }
     #s-active .ph-main{ padding:20px 16px 50px; }
     #s-active .ph-h1{ font-size:26px; }
     #s-active .ph-nav{ display:none; }
@@ -630,10 +698,84 @@
     /* Emails */
     .email-h1{ font-size:24px; }
   }
+
+  /* ==== Mobile-web PREVIEW: mirror of the max-width:768px rules, toggled by the Preview size tab ==== */
+  body.pv-narrow #s-intro .intro-title{font-size:32px;}
+  body.pv-narrow #s-intro .intro-overline{font-size:12px; letter-spacing:2px;}
+  body.pv-narrow .uwp-header{height:60px; padding:0 16px;}
+  body.pv-narrow .brand-logo{height:22px;}
+  body.pv-narrow .uwp-main{padding:20px 16px 120px;}
+  body.pv-narrow .page-title{font-size:26px;}
+  body.pv-narrow .page-sub{font-size:14px;}
+  body.pv-narrow .card{padding:20px 18px;}
+  body.pv-narrow #side-menu{width:460px; max-width:none;}
+  body.pv-narrow .two-col{grid-template-columns:1fr;}
+  body.pv-narrow .row-field, body.pv-narrow .row-field.with-del{grid-template-columns:1fr; gap:10px;}
+  body.pv-narrow .url-row{grid-template-columns:1fr;}
+  body.pv-narrow .photo-row{flex-wrap:wrap;}
+  body.pv-narrow .form-footer{height:auto; min-height:70px; padding:12px 16px; flex-wrap:wrap; gap:10px;}
+  body.pv-narrow .form-footer > div{width:100%; display:flex; gap:12px;}
+  body.pv-narrow .form-footer .btn-dark, body.pv-narrow .form-footer .btn-outline{flex:1; text-align:center;}
+  body.pv-narrow .agents-panel{overflow-x:auto;}
+  body.pv-narrow .agents-panel-head{flex-wrap:wrap; gap:12px;}
+  body.pv-narrow .atable{min-width:620px;}
+  body.pv-narrow .atable th, body.pv-narrow .atable td{padding:14px 16px;}
+  body.pv-narrow .atable-foot{flex-wrap:wrap; gap:14px;}
+  body.pv-narrow .score-actions{flex-direction:column-reverse; align-items:stretch; gap:12px;}
+  body.pv-narrow .score-actions .btn-icon-dark, body.pv-narrow .score-actions .btn-icon-outline{width:100%; justify-content:center;}
+  body.pv-narrow .score-actions .link-btn{align-self:center; margin-top:4px;}
+  body.pv-narrow .aff-tabs{gap:20px; overflow-x:auto;}
+  body.pv-narrow .aff-tab{white-space:nowrap;}
+  body.pv-narrow .team-card{flex-direction:column; align-items:flex-start; gap:16px;}
+  body.pv-narrow .team-card > div:last-child{width:100%; flex-wrap:wrap;}
+  body.pv-narrow .dashpg .sidenav{display:none;}
+  body.pv-narrow .dashpg .card-row{flex-direction:column;}
+  body.pv-narrow .dashpg .notice{flex-wrap:wrap; padding:18px 20px; gap:6px 12px;}
+  body.pv-narrow .dashpg .notice .ntext{flex:1 1 100%;}
+  body.pv-narrow .dashpg .utilbar{font-size:11px; padding:6px 12px;}
+  body.pv-narrow .dashpg .utilbar .left{display:none;}
+  body.pv-narrow .dashpg .topbar{height:56px; padding:0 16px;}
+  body.pv-narrow .dashpg .logo .pro-logo{width:150px; height:auto;}
+  body.pv-narrow .dashpg .welcome{font-size:12px; gap:8px;}
+  body.pv-narrow .dashpg .welcome img{width:30px; height:30px;}
+  body.pv-narrow .dashpg .dash-main{padding:18px 16px 60px;}
+  body.pv-narrow #s-active .ph-top{padding:0 16px;}
+  body.pv-narrow #s-active .ph-main{padding:20px 16px 50px;}
+  body.pv-narrow #s-active .ph-h1{font-size:26px;}
+  body.pv-narrow #s-active .ph-nav{display:none;}
+  body.pv-narrow #s-active .ph-panel{overflow-x:auto;}
+  body.pv-narrow #s-active .ptable{min-width:760px;}
+  body.pv-narrow #s-active .ph-toolbar{flex-wrap:wrap;}
+  body.pv-narrow #s-active .ph-search{max-width:none; flex:1 1 100%;}
+  body.pv-narrow .modal, body.pv-narrow .invite-modal{width:calc(100% - 24px); max-width:none; margin-top:6vh; padding:24px 20px;}
+  body.pv-narrow .modal-head h2, body.pv-narrow .invite-modal h2{font-size:20px;}
+  body.pv-narrow .email-h1{font-size:24px;}
+  body.pv-narrow .form-layout{grid-template-columns:1fr;}
+  body.pv-narrow .jump-nav{position:static; border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-bottom:24px;}
+  body.pv-narrow .jump-label{display:none;}
+  body.pv-narrow .jump-toggle{display:flex; width:100%; align-items:center; justify-content:space-between; background:none; border:none; padding:15px 18px; font-size:16px; font-weight:600; font-family:inherit; color:#111; cursor:pointer;}
+  body.pv-narrow .jump-toggle svg{width:20px; height:20px; transition:transform .18s ease;}
+  body.pv-narrow .jump-nav.open .jump-toggle svg{transform:rotate(180deg);}
+  body.pv-narrow .jump-nav a{display:none; border-left:none; border-top:1px solid var(--line);}
+  body.pv-narrow .jump-nav.open a{display:block;}
+  body.pv-narrow .dashpg .dash-body{flex-direction:column;}
+  body.pv-narrow .view-body{grid-template-columns:1fr;}
+  body.pv-narrow .team-hero{flex-direction:column; align-items:flex-start;}
+
 </style>
 
+<!-- ===== INTRO / LANDING (prototype lands here) ===== -->
+<div class="screen active" id="s-intro">
+  <div class="intro-wrap">
+    <div class="intro-overline">End-to-end walkthrough</div>
+    <h1 class="intro-title">Free Branding<br>Team Profiles Alpha</h1>
+    <a class="intro-link" onclick="startFlow('create')">Get started</a>
+  </div>
+  <div class="intro-logo" id="introLogo"></div>
+</div>
+
 <!-- ===== SCREEN 1 — PRO DASH HOME ===== -->
-<div class="screen active dashpg" id="s-dash">
+<div class="screen dashpg" id="s-dash">
   <div class="utilbar">
     <div class="left">
       <a class="go">Go to realtor.com</a>
@@ -808,6 +950,7 @@
       <div class="form-layout">
         <nav class="jump-nav">
           <div class="jump-label">Jump to</div>
+          <button class="jump-toggle" onclick="toggleJump(this)"><span class="jt-label">Team details</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
           <a class="active" onclick="jumpTo(this,'team-details')">Team details</a>
           <a onclick="jumpTo(this,'agents')">Agents</a>
           <a onclick="jumpTo(this,'credibility')">Credibility</a>
@@ -1426,11 +1569,17 @@
         </div>
         <div class="progress-track"><div class="progress-fill" style="width:100%;"></div></div>
         <div class="score-pct">100%</div>
+        <div class="score-improve">
+          <a class="si-lead" onclick="showToast('Score breakdown')">How can I increase my score?</a>
+          <a onclick="go('s-form')">Years of experience</a>
+          <a onclick="go('s-form')">Specialties</a>
+        </div>
       </div>
 
       <div class="form-layout">
         <nav class="jump-nav">
           <div class="jump-label">Jump to</div>
+          <button class="jump-toggle" onclick="toggleJump(this)"><span class="jt-label">Team details</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
           <a class="active" onclick="jumpTo(this,'p-team-details')">Team details</a>
           <a onclick="jumpTo(this,'p-agents')">Agents</a>
           <a onclick="jumpTo(this,'p-credibility')">Credibility</a>
@@ -1849,11 +1998,24 @@
 </div>
 
 <!-- Flow side menu -->
-<button id="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+<button id="menu-toggle" onclick="toggleMenu()" aria-label="Open prototype navigation">
+  <svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="5" height="5" rx="1.4"/><rect x="9.5" y="3" width="5" height="5" rx="1.4"/><rect x="16" y="3" width="5" height="5" rx="1.4"/><rect x="3" y="9.5" width="5" height="5" rx="1.4"/><rect x="9.5" y="9.5" width="5" height="5" rx="1.4"/><rect x="16" y="9.5" width="5" height="5" rx="1.4"/><rect x="3" y="16" width="5" height="5" rx="1.4"/><rect x="9.5" y="16" width="5" height="5" rx="1.4"/><rect x="16" y="16" width="5" height="5" rx="1.4"/></svg>
 </button>
 <div id="menu-scrim" onclick="toggleMenu()"></div>
 <nav id="side-menu">
+  <div class="pn-head">
+    <h2>Prototype navigation</h2>
+    <button class="pn-close" onclick="toggleMenu()" aria-label="Close">&times;</button>
+  </div>
+  <div class="pn-preview">
+    <span class="pn-label">Preview size</span>
+    <div class="pn-tabs">
+      <button class="pn-tab active" onclick="setPreview('web',this)">Web</button>
+      <button class="pn-tab" onclick="setPreview('tablet',this)">iPad</button>
+      <button class="pn-tab" onclick="setPreview('mobile',this)">Mobile web</button>
+    </div>
+  </div>
+  <div class="pn-body">
   <div class="menu-group">
     <a class="menu-parent" onclick="toggleGroup(this)">
       <span class="mp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.2"/><path d="M17.5 13.3c2.3 0 4 1.8 4 4"/></svg></span>
@@ -1880,6 +2042,11 @@
       <a data-view="agentLeftEmail" onclick="openAgentLeftEmail()">Agent leaves team email</a>
       <a data-view="ownerLeftEmail" onclick="openOwnerLeftEmail()">Team owner email</a>
     </div>
+  </div>
+  </div><!-- /.pn-body -->
+  <div id="proto-stamp">
+    <div class="ps-title">Sample prototype</div>
+    <div class="ps-date">Last updated: <span id="stampDate"></span></div>
   </div>
 </nav>
 
@@ -1916,12 +2083,25 @@
     document.getElementById('side-menu').classList.toggle('open');
     document.getElementById('menu-scrim').classList.toggle('open');
   }
+  function closeMenu(){
+    document.getElementById('side-menu').classList.remove('open');
+    document.getElementById('menu-scrim').classList.remove('open');
+  }
+  // Preview size tabs: Web = full width; iPad/Mobile constrain into a device frame
+  // and (mobile) trigger the responsive breakpoints we already built.
+  function setPreview(size, el){
+    document.body.classList.remove('pv-web','pv-tablet','pv-mobile','pv-narrow');
+    document.body.classList.add('pv-'+size);
+    if(size==='tablet' || size==='mobile') document.body.classList.add('pv-narrow');  // shared responsive layout
+    el.parentElement.querySelectorAll('.pn-tab').forEach(t=>t.classList.toggle('active', t===el));
+    window.scrollTo(0,0);
+  }
   function startFlow(flow){
     currentFlow = flow;
     if(flow==='create') clearForm();   // create flow always begins with an empty form
     document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.flow===flow));
     go(FLOW_ENTRY[flow]);
-    toggleMenu();
+    closeMenu();
   }
   // "Manage agents" from the team profile: populated roster only in the manage flow.
   function goManage(){ go(currentFlow==='manage' ? 's-manage-full' : 's-manage'); }
@@ -1947,14 +2127,14 @@
     emailMode = 'invitation';
     document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.view==='email'));
     go('s-email');
-    toggleMenu();
+    closeMenu();
   }
   function openRemovalEmail(){
     currentFlow = '';
     emailMode = 'removal';
     document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.view==='removal'));
     go('s-email');
-    toggleMenu();
+    closeMenu();
   }
   // Team membership flow: open the Pro Dashboard profile home; "Team membership"
   // in its left nav opens the owner affiliation view (s-affiliation).
@@ -1962,7 +2142,7 @@
     currentFlow = '';
     document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.view==='membership'));
     go('s-dash');
-    toggleMenu();
+    closeMenu();
   }
   // "Manage team profile" from the affiliation view → the manage flow's team profile.
   function manageTeamProfile(){ currentFlow = 'manage'; go('s-profile'); }
@@ -1974,7 +2154,7 @@
     emailMode = 'agentInvite';
     document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.view==='agentInvite'));
     go('s-email');
-    toggleMenu();
+    closeMenu();
   }
   // Email CTA "Create account or login" → Pro Dashboard with the invite pop-up.
   function agentLogin(){
@@ -1991,7 +2171,7 @@
     emailMode = 'agentInviteNew';
     document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.view==='agentInviteNew'));
     go('s-email');
-    toggleMenu();
+    closeMenu();
   }
   // Email CTA "Create account or login" (new agent) → account creation.
   function agentStartOnboarding(){ go('s-agent-create'); }
@@ -2043,7 +2223,7 @@
     setAgentState('success');
     document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.view==='leaveTeam'));
     go('s-agent-membership');
-    toggleMenu();
+    closeMenu();
   }
   // Toggle the membership page between its joined (team card) and left (empty) states.
   function renderAgentMembership(){
@@ -2069,7 +2249,7 @@
     emailMode = 'agentLeft';
     document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.view==='agentLeftEmail'));
     go('s-email');
-    toggleMenu();
+    closeMenu();
   }
   // Flow #5: the notification email the team owner receives when an agent leaves.
   function openOwnerLeftEmail(){
@@ -2077,7 +2257,7 @@
     emailMode = 'ownerAgentLeft';
     document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.view==='ownerLeftEmail'));
     go('s-email');
-    toggleMenu();
+    closeMenu();
   }
   // Toggle the dashboard between the pending-invite banner and the accepted/terms state.
   function setAgentState(state){
@@ -2091,7 +2271,7 @@
     currentFlow = '';
     document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.view==='active'));
     go('s-active');
-    toggleMenu();
+    closeMenu();
   }
   // ---- Real Pro Dash: Active agents roster ----
   const activeAgents = [
@@ -2133,10 +2313,15 @@
   function tryLeave(){ openModal('m-discard'); }
 
   function jumpTo(el, id){
-    el.closest('.jump-nav').querySelectorAll('a').forEach(a=>a.classList.remove('active'));
+    const nav = el.closest('.jump-nav');
+    nav.querySelectorAll('a').forEach(a=>a.classList.remove('active'));
     el.classList.add('active');
+    const lbl = nav.querySelector('.jt-label'); if(lbl) lbl.textContent = el.textContent;
+    nav.classList.remove('open');   // collapse the mobile dropdown after choosing
     document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
   }
+  // Mobile jump-nav dropdown toggle
+  function toggleJump(btn){ btn.closest('.jump-nav').classList.toggle('open'); }
 
   const areas = [];
   function renderAreas(){
@@ -2521,6 +2706,13 @@
     const src = document.querySelector('.brand-logo').src;
     document.querySelectorAll('img[data-fill]').forEach(img=>img.src=src);
     document.getElementById('heroLogo').innerHTML = '<img class="logo-img" src="'+KEYSTONE_LOGO+'" alt="Keystone Realty">';
+    document.getElementById('introLogo').innerHTML = RDC_WHITE_SVG + '<span class="pro-pill">PRO</span>';
+    // "Sample prototype" card: show when this file was last updated (date only)
+    (function(){
+      var lm = new Date(document.lastModified);
+      var txt = isNaN(lm) ? '' : lm.toLocaleDateString('en-US',{month:'numeric',day:'numeric',year:'numeric'});
+      var el = document.getElementById('stampDate'); if(el) el.textContent = txt || document.lastModified;
+    })();
     document.getElementById('affTeamLogo').innerHTML = '<img src="'+KEYSTONE_LOGO+'" alt="Keystone Realty">';
     document.getElementById('agentTeamLogo').innerHTML = '<img src="'+BRAND_LOGO+'" alt="Keystone Realty">';
     // Participating-agent dashboard: clone the pro-logo SVG, set Tonya's photo + team logo.
