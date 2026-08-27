@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "client-web-shell",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "/Users/lho/.claude/plugins/cache/daisy/daisy/ea4afe77987a/shells/client-web"],
+      "port": 5173,
+      "autoPort": true
+    }
+  ]
+}
