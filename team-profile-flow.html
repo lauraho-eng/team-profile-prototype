@@ -137,6 +137,7 @@
   .uwp-logo .pro{ background:var(--realtor-red); color:#fff; font-weight:700; font-size:13px; padding:3px 9px; border-radius:6px; letter-spacing:.5px; margin-left:4px; }
   .brand-logo{ height:26px; width:auto; display:block; }
   .brand-logo.dash{ height:24px; }
+  .sl-header .brand-logo-svg{ height:24px; width:auto; display:block; }
 
   .card-title{ font-size:22px; font-weight:600; margin-bottom:24px; }
   .clearable{ position:relative; }
@@ -468,9 +469,11 @@
   .progress-track{ height:12px; background:#e9e7e2; border-radius:999px; overflow:hidden; }
   .progress-fill{ height:100%; background:#2a7e3b; border-radius:999px; transition:width .5s ease; }
   .score-pct{ font-size:16px; font-weight:600; margin-top:12px; }
-  .score-improve{ border-top:1px solid var(--line); margin-top:20px; padding-top:18px; display:flex; flex-direction:column; gap:14px; align-items:flex-start; }
+  .score-improve{ border-top:1px solid var(--line); margin-top:20px; padding-top:18px; display:flex; flex-direction:row; flex-wrap:wrap; align-items:center; gap:10px 28px; }
   .score-improve a{ font-size:15px; color:#111; text-decoration:underline; cursor:pointer; }
-  .score-improve .si-lead{ font-weight:600; }
+  .score-improve .si-lead{ font-weight:600; text-decoration:underline dotted; text-underline-offset:3px; }
+  .si-field{ display:flex; align-items:center; gap:8px; }
+  .hi-badge{ background:#dcf0e1; color:#1a5c2a; font-size:12px; font-weight:500; padding:2px 9px; border-radius:999px; white-space:nowrap; }
 
   /* ===== Agents table ===== */
   .agents-panel{ border:1px solid var(--line); border-radius:14px; overflow:hidden; }
@@ -622,7 +625,7 @@
   #s-intro{ position:relative; min-height:100vh; background:#1a1816; color:#fff; font-family:'Galano Grotesque Alt',system-ui,sans-serif; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px; }
   #s-intro.active{ display:flex; }   /* flex only when active — otherwise .screen{display:none} hides it */
   #s-intro .intro-overline{ font-size:14px; font-weight:600; letter-spacing:3px; text-transform:uppercase; margin-bottom:22px; }
-  #s-intro .intro-title{ font-size:48px; font-weight:600; line-height:1.12; letter-spacing:-0.5px; margin:0 0 40px; }
+  #s-intro .intro-title{ font-size:75px; font-weight:600; line-height:1.12; letter-spacing:-0.5px; margin:0 0 40px; }
   #s-intro .intro-link{ font-size:16px; font-weight:500; color:#fff; text-decoration:underline; text-underline-offset:3px; cursor:pointer; }
   #s-intro .intro-link:hover{ opacity:.85; }
   #s-intro .intro-logo{ position:absolute; bottom:44px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:8px; }
@@ -707,15 +710,21 @@
 
   /* ===== PRESENTATION SLIDES ===== */
   .sl-header{ height:72px; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; padding:0 40px; background:#fff; position:sticky; top:0; z-index:10; }
+  .toc-nav-link{ position:fixed; top:16px; right:20px; z-index:9999; font-size:13px; font-weight:500; color:#fff; background:rgba(0,0,0,0.55); backdrop-filter:blur(6px); padding:6px 14px; border-radius:999px; text-decoration:none; cursor:pointer; letter-spacing:0.01em; transition:background 0.15s; }
+  .toc-nav-link:hover{ background:rgba(0,0,0,0.8); }
+  .sl-toc-link{ color:var(--ink); text-decoration:underline; cursor:pointer; }
+  .sl-toc-link:hover{ opacity:0.75; }
+  .sl-ul{ margin:8px 0 16px 22px; padding:0; }
+  .sl-ul li{ font-size:15px; color:var(--ink-2); line-height:1.65; margin-bottom:6px; }
   .sl-stamp{ font-size:13px; color:var(--muted); background:var(--chip-bg); padding:5px 12px; border-radius:999px; font-weight:500; }
   .sl-content{ max-width:840px; margin:0 auto; padding:48px 40px 32px; }
   .sl-h1{ font-size:36px; font-weight:700; margin-bottom:32px; letter-spacing:-0.5px; }
   .sl-feature-name{ font-size:20px; font-weight:700; margin-bottom:8px; }
   .sl-feature-sub{ font-size:15px; font-weight:700; margin-bottom:14px; }
-  .sl-body{ font-size:15px; line-height:1.65; color:var(--ink-2); }
+  .sl-body{ font-size:15px; line-height:1.65; color:var(--ink-2); margin-bottom:2px; }
   .sl-body strong{ color:var(--ink); }
   .sl-bold-note{ font-size:15px; line-height:1.65; color:var(--ink); font-weight:600; margin-top:16px; }
-  .sl-section-head{ font-size:18px; font-weight:700; margin-bottom:22px; }
+  .sl-section-head{ font-size:18px; font-weight:700; margin-top:24px; margin-bottom:4px; }
   .sl-detail-list{ list-style:none; display:flex; flex-direction:column; gap:22px; }
   .sl-detail-item{ display:flex; gap:14px; align-items:flex-start; }
   .sl-di-icon{ width:22px; height:22px; flex:0 0 22px; color:var(--ink); margin-top:1px; }
@@ -794,19 +803,39 @@
 </head>
 <body>
 
+<!-- Fixed TOC nav link -->
+<a class="toc-nav-link" onclick="go('s-slide-toc')">Table of Contents</a>
+
 <!-- ===== INTRO / LANDING (prototype lands here) ===== -->
 <!-- ===== SLIDE 1 — OVERVIEW ===== -->
 <div class="screen" id="s-slide-overview">
   <div class="sl-header">
-    <img class="brand-logo" data-fill alt="realtor.com PRO">
-    <span class="sl-stamp">Sample prototype <span class="sl-date"></span></span>
+    <svg class="brand-logo-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 177 24" role="img" aria-label="realtor.com"><g><path fill="#D72228" d="M72.89 20.04V.01h-5.82v.64c2.12.19 2.8.77 2.8 2.35v16.97c0 1.96-.61 2.76-2.03 2.76-1.58 0-2.25-.8-2.25-2.76v-7.11c0-3.7-1.9-5.59-5.66-5.59-3.09 0-5.82 1.25-5.88 3.54-.03 1.06.51 1.93 1.58 1.93s1.54-.8 1.54-1.74c0-2.06.68-2.93 2.64-2.93 1.77 0 2.83.8 2.83 3.92 0 1.03-.35 1.22-2.96 2.19-4.5 1.7-6.72 2.8-6.72 5.69 0 2.64 1.83 3.86 4.82 3.86 2.48 0 4.08-.84 4.86-2.76.29 1.67 1.13 2.54 2.86 2.54h10.19v-.61c-2.19-.19-2.8-.84-2.8-2.86m-10.26-1.7c0 2.15-1.38 4.34-3.83 4.34-1.64 0-2.6-1.03-2.6-2.96 0-2.6 1.29-3.79 4.18-4.89 1.06-.42 1.77-.68 2.25-.93zM39.07 9.01c0 .9-.55 1.77-1.45 1.77-1.09 0-1.22-1.25-2.28-1.25-1.61 0-3.22 3.6-3.22 6.49v4.21c0 1.74.68 2.35 3.02 2.64v.64h-8.71v-.61c1.99-.32 2.7-1.06 2.7-2.76v-9.42c0-1.61-.51-2.12-2.64-2.51V7.6h5.56l-.06 4.4h.26c.91-2.58 2.7-4.73 4.83-4.73 1.29 0 1.99.71 1.99 1.74m6.97-1.73c-4.34 0-7.07 3.12-7.07 8.52s2.51 7.94 6.85 7.94c2.86 0 4.76-1.09 5.79-3.86l-.64-.32c-.87 2.09-2.41 3.12-4.57 3.12-3.05 0-3.92-2.41-3.92-7.49v-.39h9.35v-1.51c-.06-3.86-2.22-6.01-5.79-6.01m2.6 6.72h-6.15c.17-4.08 1.26-5.92 3.35-5.92 1.77 0 2.73 1.7 2.8 5.02z"/><path fill="#000" d="m85.39 22.04.35.58c-1.09.68-2.44 1.09-3.96 1.09-2.57 0-4.18-1.22-4.18-3.83V8.37h-2.38v-.58c2.44-.71 4.31-2.6 4.86-5.18h.61v4.95h4.98v.84h-4.98v11.06c0 2.19.68 3.05 2.64 3.05.8 0 1.48-.23 2.06-.48zm84.83-1.87v-7.88c0-3.41-1.74-5.05-4.79-5.05-2.69 0-4.07 1.22-4.69 3.63h-.18c-.18-2.36-1.74-3.63-4.52-3.63s-4.23 1.22-4.81 3.63h-.2l.03-3.28h-5.5v.61c1.99.29 2.64.84 2.64 2.41v9.52c0 1.7-.71 2.44-2.7 2.76v.61h7.88v-.64c-1.61-.29-2.19-.96-2.19-2.7v-4.18c0-4.98 1.38-7.59 4.05-7.59 1.58 0 2.44.96 2.44 3.15v8.62c0 1.74-.51 2.41-2.12 2.7v.64h7.3v-.64c-1.61-.29-2.15-.96-2.15-2.7v-4.15c0-4.98 1.41-7.62 4.08-7.62 1.67 0 2.41 1.06 2.41 3.15v8.65c0 1.74-.55 2.38-2.15 2.67v.64h7.46v-.64c-1.74-.29-2.28-.96-2.28-2.7zm-25.08-4.66c0 4.95-2.99 8.26-7.49 8.26s-7.56-3.31-7.56-8.26 3.02-8.23 7.52-8.23 7.52 3.28 7.52 8.23zm-3.51 0c0-5.08-1.25-7.36-3.99-7.36s-4.05 2.28-4.05 7.36 1.32 7.39 4.05 7.39 3.99-2.28 3.99-7.39m-17.84 7.2c-2.86 0-4.34-2.28-4.34-7.33s1.42-7.27 3.92-7.27c1.48 0 2.19.84 2.19 2.6 0 1.58.58 2.38 1.67 2.38 1 0 1.54-.74 1.51-1.93-.06-2.54-2.67-3.89-5.6-3.89-4.4 0-7.24 3.09-7.24 8.36s2.51 8.13 7.17 8.13c2.99 0 4.73-1.25 5.98-3.86l-.68-.35c-1.03 2.15-2.64 3.15-4.6 3.15zm-23.76-7.2c0 4.95-2.99 8.26-7.49 8.26s-7.59-3.31-7.59-8.26 3.02-8.23 7.56-8.23 7.52 3.28 7.52 8.23m-3.54 0c0-5.08-1.25-7.36-3.99-7.36s-4.02 2.28-4.02 7.36 1.29 7.39 4.02 7.39 3.99-2.28 3.99-7.39m16.91-6.5c0-1.03-.71-1.74-1.99-1.74-2.23 0-4.09 2.14-5.03 4.73h-.28l.06-4.4h-5.56v.61c2.12.39 2.64.9 2.64 2.51v9.42c0 1.7-.71 2.44-2.7 2.76v.61h8.71v-.64c-2.35-.29-3.02-.9-3.02-2.64v-4.21c0-2.89 1.67-6.49 3.44-6.49 1.06 0 1.19 1.25 2.28 1.25.9 0 1.45-.87 1.45-1.77m-.32 11.32c-.96 0-1.7.74-1.7 1.7s.74 1.7 1.7 1.7 1.7-.74 1.7-1.7-.74-1.7-1.7-1.7M174.22 7a2.51 2.51 0 0 0-2.51 2.5c0 1.38 1.13 2.48 2.51 2.48s2.47-1.1 2.47-2.48-1.1-2.5-2.47-2.5m0 4.54c-1.18 0-2.04-.92-2.04-2.04s.86-2.07 2.04-2.07c1.11 0 2.01.94 2.01 2.07s-.9 2.04-2.01 2.04"/><path fill="#000" d="M175.27 9.04c0-.46-.37-.83-.99-.83h-1.01v2.47h.51v-.82h.45l.48.82h.56l-.57-.9c.38-.1.57-.42.57-.74m-1.01.45h-.48v-.85h.48c.26 0 .5.13.5.4s-.21.45-.5.45"/><path fill="#D72228" d="M22.94 13.39 11.88 2.04.79 13.39h3.37v10.12h15.36V13.39z"/><path fill="#fff" d="M11.85 13.48h.2c.79-1.96 2.19-3.34 3.39-3.34.85 0 1.52.61 1.52 1.55 0 .82-.47 1.4-1.14 1.4-.44 0-.64-.23-.85-.44-.23-.23-.41-.5-.76-.5-1.05 0-2.25 2.34-2.25 4.18v1.78c0 1.58.41 1.93 2.19 2.17v.56H7.51v-.5c1.61-.2 2.14-.67 2.14-2.22v-5.36c0-1.14-.5-1.58-1.99-1.84v-.52h4.27l-.09 3.07z"/></g></svg>
+
   </div>
   <div class="sl-content">
     <h1 class="sl-h1">Overview</h1>
     <div class="card">
-      <div class="sl-feature-name">Team Branding — Branding Team Profile</div>
-      <p class="sl-body">Our goal is to give lead agents a free, self-service way to establish a dedicated team presence on realtor.com. A Branding Team Profile lets any MLS-verified lead agent stand up a team name, photo, bio, service areas, and roster — creating a distinct entity eligible to appear in realtor.com's consumer-facing Agent Directory as soon as it's published. This unblocks the consumer team directory experience and closes the gap with Zillow, which already ships a comparable free team profile today.</p>
-      <p class="sl-bold-note">In this alpha, profile creation, editing, and roster management are lead-agent capabilities only; invited agents receive and accept (or decline) invitations via email and in-product notification. Admin-initiated creation is explicitly out of scope for this release.</p>
+      <div class="sl-feature-name">Team Branding Profile</div>
+
+      <div class="sl-section-head" style="margin-top:14px;">The Goal</div>
+      <p class="sl-body">Give team leaders a free, self-service way to create a team presence on realtor.com. No sales call, no paperwork. Just sign up and go live.</p>
+
+      <div class="sl-section-head">What is a "Lead Agent"?</div>
+      <p class="sl-body">A lead agent is the MLS-verified real estate agent who leads a team. They're the one who:</p>
+      <ul class="sl-ul">
+        <li>Creates the team profile (name, photo, bio, service areas)</li>
+        <li>Invites other agents to join the roster</li>
+        <li>Manages and edits the profile going forward</li>
+      </ul>
+      <p class="sl-body">Think of them as the "team captain." Right now, only they can set up and manage the profile. Other agents on the team are invited and simply accept or decline.</p>
+
+      <div class="sl-section-head">Important: This is a Free Profile Only</div>
+      <p class="sl-body">This version only includes the free Branding Team Profile. No LEX ads, no paid features, no premium placement. It's a free profile, just like the individual agent profiles already in our directory today. Once published, the team becomes visible in realtor.com's public Agent Directory, the same way an individual agent's profile is.</p>
+
+      <div class="sl-section-head">Where This Lives: ProDashboard Trigger, RealProDashboard Build</div>
+      <p class="sl-body">Because we're starting with the agent, not an admin, the entry point (the action that kicks off profile creation) lives in ProDashboard, where agents already work today.</p>
+      <p class="sl-body">The actual experience is being built entirely in RealProDashboard, following our shell pattern. We're doing this intentionally so we don't take on design and engineering debt later. This means building it right the first time in the platform we're consolidating toward, rather than building it in the old system and having to redo it down the line.</p>
     </div>
     <div class="card">
       <div class="sl-section-head">Important details</div>
@@ -842,27 +871,22 @@
 <!-- ===== SLIDE 2 — EXPECTATIONS ===== -->
 <div class="screen" id="s-slide-expect">
   <div class="sl-header">
-    <img class="brand-logo" data-fill alt="realtor.com PRO">
-    <span class="sl-stamp">Sample prototype <span class="sl-date"></span></span>
+    <svg class="brand-logo-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 177 24" role="img" aria-label="realtor.com"><g><path fill="#D72228" d="M72.89 20.04V.01h-5.82v.64c2.12.19 2.8.77 2.8 2.35v16.97c0 1.96-.61 2.76-2.03 2.76-1.58 0-2.25-.8-2.25-2.76v-7.11c0-3.7-1.9-5.59-5.66-5.59-3.09 0-5.82 1.25-5.88 3.54-.03 1.06.51 1.93 1.58 1.93s1.54-.8 1.54-1.74c0-2.06.68-2.93 2.64-2.93 1.77 0 2.83.8 2.83 3.92 0 1.03-.35 1.22-2.96 2.19-4.5 1.7-6.72 2.8-6.72 5.69 0 2.64 1.83 3.86 4.82 3.86 2.48 0 4.08-.84 4.86-2.76.29 1.67 1.13 2.54 2.86 2.54h10.19v-.61c-2.19-.19-2.8-.84-2.8-2.86m-10.26-1.7c0 2.15-1.38 4.34-3.83 4.34-1.64 0-2.6-1.03-2.6-2.96 0-2.6 1.29-3.79 4.18-4.89 1.06-.42 1.77-.68 2.25-.93zM39.07 9.01c0 .9-.55 1.77-1.45 1.77-1.09 0-1.22-1.25-2.28-1.25-1.61 0-3.22 3.6-3.22 6.49v4.21c0 1.74.68 2.35 3.02 2.64v.64h-8.71v-.61c1.99-.32 2.7-1.06 2.7-2.76v-9.42c0-1.61-.51-2.12-2.64-2.51V7.6h5.56l-.06 4.4h.26c.91-2.58 2.7-4.73 4.83-4.73 1.29 0 1.99.71 1.99 1.74m6.97-1.73c-4.34 0-7.07 3.12-7.07 8.52s2.51 7.94 6.85 7.94c2.86 0 4.76-1.09 5.79-3.86l-.64-.32c-.87 2.09-2.41 3.12-4.57 3.12-3.05 0-3.92-2.41-3.92-7.49v-.39h9.35v-1.51c-.06-3.86-2.22-6.01-5.79-6.01m2.6 6.72h-6.15c.17-4.08 1.26-5.92 3.35-5.92 1.77 0 2.73 1.7 2.8 5.02z"/><path fill="#000" d="m85.39 22.04.35.58c-1.09.68-2.44 1.09-3.96 1.09-2.57 0-4.18-1.22-4.18-3.83V8.37h-2.38v-.58c2.44-.71 4.31-2.6 4.86-5.18h.61v4.95h4.98v.84h-4.98v11.06c0 2.19.68 3.05 2.64 3.05.8 0 1.48-.23 2.06-.48zm84.83-1.87v-7.88c0-3.41-1.74-5.05-4.79-5.05-2.69 0-4.07 1.22-4.69 3.63h-.18c-.18-2.36-1.74-3.63-4.52-3.63s-4.23 1.22-4.81 3.63h-.2l.03-3.28h-5.5v.61c1.99.29 2.64.84 2.64 2.41v9.52c0 1.7-.71 2.44-2.7 2.76v.61h7.88v-.64c-1.61-.29-2.19-.96-2.19-2.7v-4.18c0-4.98 1.38-7.59 4.05-7.59 1.58 0 2.44.96 2.44 3.15v8.62c0 1.74-.51 2.41-2.12 2.7v.64h7.3v-.64c-1.61-.29-2.15-.96-2.15-2.7v-4.15c0-4.98 1.41-7.62 4.08-7.62 1.67 0 2.41 1.06 2.41 3.15v8.65c0 1.74-.55 2.38-2.15 2.67v.64h7.46v-.64c-1.74-.29-2.28-.96-2.28-2.7zm-25.08-4.66c0 4.95-2.99 8.26-7.49 8.26s-7.56-3.31-7.56-8.26 3.02-8.23 7.52-8.23 7.52 3.28 7.52 8.23zm-3.51 0c0-5.08-1.25-7.36-3.99-7.36s-4.05 2.28-4.05 7.36 1.32 7.39 4.05 7.39 3.99-2.28 3.99-7.39m-17.84 7.2c-2.86 0-4.34-2.28-4.34-7.33s1.42-7.27 3.92-7.27c1.48 0 2.19.84 2.19 2.6 0 1.58.58 2.38 1.67 2.38 1 0 1.54-.74 1.51-1.93-.06-2.54-2.67-3.89-5.6-3.89-4.4 0-7.24 3.09-7.24 8.36s2.51 8.13 7.17 8.13c2.99 0 4.73-1.25 5.98-3.86l-.68-.35c-1.03 2.15-2.64 3.15-4.6 3.15zm-23.76-7.2c0 4.95-2.99 8.26-7.49 8.26s-7.59-3.31-7.59-8.26 3.02-8.23 7.56-8.23 7.52 3.28 7.52 8.23m-3.54 0c0-5.08-1.25-7.36-3.99-7.36s-4.02 2.28-4.02 7.36 1.29 7.39 4.02 7.39 3.99-2.28 3.99-7.39m16.91-6.5c0-1.03-.71-1.74-1.99-1.74-2.23 0-4.09 2.14-5.03 4.73h-.28l.06-4.4h-5.56v.61c2.12.39 2.64.9 2.64 2.51v9.42c0 1.7-.71 2.44-2.7 2.76v.61h8.71v-.64c-2.35-.29-3.02-.9-3.02-2.64v-4.21c0-2.89 1.67-6.49 3.44-6.49 1.06 0 1.19 1.25 2.28 1.25.9 0 1.45-.87 1.45-1.77m-.32 11.32c-.96 0-1.7.74-1.7 1.7s.74 1.7 1.7 1.7 1.7-.74 1.7-1.7-.74-1.7-1.7-1.7M174.22 7a2.51 2.51 0 0 0-2.51 2.5c0 1.38 1.13 2.48 2.51 2.48s2.47-1.1 2.47-2.48-1.1-2.5-2.47-2.5m0 4.54c-1.18 0-2.04-.92-2.04-2.04s.86-2.07 2.04-2.07c1.11 0 2.01.94 2.01 2.07s-.9 2.04-2.01 2.04"/><path fill="#000" d="M175.27 9.04c0-.46-.37-.83-.99-.83h-1.01v2.47h.51v-.82h.45l.48.82h.56l-.57-.9c.38-.1.57-.42.57-.74m-1.01.45h-.48v-.85h.48c.26 0 .5.13.5.4s-.21.45-.5.45"/><path fill="#D72228" d="M22.94 13.39 11.88 2.04.79 13.39h3.37v10.12h15.36V13.39z"/><path fill="#fff" d="M11.85 13.48h.2c.79-1.96 2.19-3.34 3.39-3.34.85 0 1.52.61 1.52 1.55 0 .82-.47 1.4-1.14 1.4-.44 0-.64-.23-.85-.44-.23-.23-.41-.5-.76-.5-1.05 0-2.25 2.34-2.25 4.18v1.78c0 1.58.41 1.93 2.19 2.17v.56H7.51v-.5c1.61-.2 2.14-.67 2.14-2.22v-5.36c0-1.14-.5-1.58-1.99-1.84v-.52h4.27l-.09 3.07z"/></g></svg>
+
   </div>
   <div class="sl-content">
     <h1 class="sl-h1">Expectations</h1>
     <div class="card">
-      <div class="sl-feature-name">Team Branding — Branding Team Profile</div>
+      <div class="sl-feature-name">Team Branding Profile</div>
       <div class="sl-feature-sub">Walkthrough expectations</div>
-      <p class="sl-body">Designs shown today are what we plan on delivering to meet the alpha release of the Branding Team Profile creation and roster management flow. Any adjustments to core requirements will need to go through our Change Request log to preserve the integrity of the plan that's in place and being worked on by engineering. Today, we'll be looking for your thoughts on:</p>
-    </div>
-    <div class="card">
-      <ul class="sl-detail-list">
-        <li class="sl-detail-item">
-          <svg class="sl-di-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
-          <span class="sl-di-text"><strong>Questions on Team Profile creation and roster management:</strong> We will recap feedback given at the end of this session and flag anything we need to further discuss as a team.</span>
-        </li>
-        <li class="sl-detail-item">
-          <svg class="sl-di-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><circle cx="12" cy="17" r="0.5" fill="currentColor"/></svg>
-          <span class="sl-di-text"><strong>Considerations for continued optimization after this alpha:</strong> All feedback is welcome and will be noted for consideration as part of continued optimizations (e.g., profile completion scoring, paid/LEX team profile tier, admin-assisted roster management, mobile parity).</span>
-        </li>
+      <p class="sl-body">Designs shown today reflect what we plan to deliver for the alpha release of the Branding Team Profile creation and roster management flow.</p>
+      <p class="sl-body" style="margin-top:12px;">We'll also walk through the consumer-facing side of this launch — how a consumer discovers, evaluates, and engages with a team through the new agent search directory:</p>
+      <ul class="sl-ul" style="margin-top:8px;">
+        <li><strong>Search &amp; discover:</strong> How a consumer searches the new agent directory and filters results (by location, specialty, team size, etc.) to find the team that best fits their needs.</li>
+        <li><strong>Evaluate:</strong> How they view a team's profile page — roster, agent bios, credentials, branding, and active listings — to assess fit.</li>
+        <li><strong>Engage:</strong> How they initiate contact with that team directly from the profile (e.g., a lead form or message to the team).</li>
       </ul>
+      <p class="sl-body" style="margin-top:12px;">Any adjustments to core requirements will need to go through our Change Request log to preserve the integrity of the plan already in place and being worked on by engineering.</p>
     </div>
   </div>
   <div class="sl-nav">
@@ -874,8 +898,8 @@
 <!-- ===== SLIDE 3 — TABLE OF CONTENTS ===== -->
 <div class="screen" id="s-slide-toc">
   <div class="sl-header">
-    <img class="brand-logo" data-fill alt="realtor.com PRO">
-    <span class="sl-stamp">Sample prototype <span class="sl-date"></span></span>
+    <svg class="brand-logo-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 177 24" role="img" aria-label="realtor.com"><g><path fill="#D72228" d="M72.89 20.04V.01h-5.82v.64c2.12.19 2.8.77 2.8 2.35v16.97c0 1.96-.61 2.76-2.03 2.76-1.58 0-2.25-.8-2.25-2.76v-7.11c0-3.7-1.9-5.59-5.66-5.59-3.09 0-5.82 1.25-5.88 3.54-.03 1.06.51 1.93 1.58 1.93s1.54-.8 1.54-1.74c0-2.06.68-2.93 2.64-2.93 1.77 0 2.83.8 2.83 3.92 0 1.03-.35 1.22-2.96 2.19-4.5 1.7-6.72 2.8-6.72 5.69 0 2.64 1.83 3.86 4.82 3.86 2.48 0 4.08-.84 4.86-2.76.29 1.67 1.13 2.54 2.86 2.54h10.19v-.61c-2.19-.19-2.8-.84-2.8-2.86m-10.26-1.7c0 2.15-1.38 4.34-3.83 4.34-1.64 0-2.6-1.03-2.6-2.96 0-2.6 1.29-3.79 4.18-4.89 1.06-.42 1.77-.68 2.25-.93zM39.07 9.01c0 .9-.55 1.77-1.45 1.77-1.09 0-1.22-1.25-2.28-1.25-1.61 0-3.22 3.6-3.22 6.49v4.21c0 1.74.68 2.35 3.02 2.64v.64h-8.71v-.61c1.99-.32 2.7-1.06 2.7-2.76v-9.42c0-1.61-.51-2.12-2.64-2.51V7.6h5.56l-.06 4.4h.26c.91-2.58 2.7-4.73 4.83-4.73 1.29 0 1.99.71 1.99 1.74m6.97-1.73c-4.34 0-7.07 3.12-7.07 8.52s2.51 7.94 6.85 7.94c2.86 0 4.76-1.09 5.79-3.86l-.64-.32c-.87 2.09-2.41 3.12-4.57 3.12-3.05 0-3.92-2.41-3.92-7.49v-.39h9.35v-1.51c-.06-3.86-2.22-6.01-5.79-6.01m2.6 6.72h-6.15c.17-4.08 1.26-5.92 3.35-5.92 1.77 0 2.73 1.7 2.8 5.02z"/><path fill="#000" d="m85.39 22.04.35.58c-1.09.68-2.44 1.09-3.96 1.09-2.57 0-4.18-1.22-4.18-3.83V8.37h-2.38v-.58c2.44-.71 4.31-2.6 4.86-5.18h.61v4.95h4.98v.84h-4.98v11.06c0 2.19.68 3.05 2.64 3.05.8 0 1.48-.23 2.06-.48zm84.83-1.87v-7.88c0-3.41-1.74-5.05-4.79-5.05-2.69 0-4.07 1.22-4.69 3.63h-.18c-.18-2.36-1.74-3.63-4.52-3.63s-4.23 1.22-4.81 3.63h-.2l.03-3.28h-5.5v.61c1.99.29 2.64.84 2.64 2.41v9.52c0 1.7-.71 2.44-2.7 2.76v.61h7.88v-.64c-1.61-.29-2.19-.96-2.19-2.7v-4.18c0-4.98 1.38-7.59 4.05-7.59 1.58 0 2.44.96 2.44 3.15v8.62c0 1.74-.51 2.41-2.12 2.7v.64h7.3v-.64c-1.61-.29-2.15-.96-2.15-2.7v-4.15c0-4.98 1.41-7.62 4.08-7.62 1.67 0 2.41 1.06 2.41 3.15v8.65c0 1.74-.55 2.38-2.15 2.67v.64h7.46v-.64c-1.74-.29-2.28-.96-2.28-2.7zm-25.08-4.66c0 4.95-2.99 8.26-7.49 8.26s-7.56-3.31-7.56-8.26 3.02-8.23 7.52-8.23 7.52 3.28 7.52 8.23zm-3.51 0c0-5.08-1.25-7.36-3.99-7.36s-4.05 2.28-4.05 7.36 1.32 7.39 4.05 7.39 3.99-2.28 3.99-7.39m-17.84 7.2c-2.86 0-4.34-2.28-4.34-7.33s1.42-7.27 3.92-7.27c1.48 0 2.19.84 2.19 2.6 0 1.58.58 2.38 1.67 2.38 1 0 1.54-.74 1.51-1.93-.06-2.54-2.67-3.89-5.6-3.89-4.4 0-7.24 3.09-7.24 8.36s2.51 8.13 7.17 8.13c2.99 0 4.73-1.25 5.98-3.86l-.68-.35c-1.03 2.15-2.64 3.15-4.6 3.15zm-23.76-7.2c0 4.95-2.99 8.26-7.49 8.26s-7.59-3.31-7.59-8.26 3.02-8.23 7.56-8.23 7.52 3.28 7.52 8.23m-3.54 0c0-5.08-1.25-7.36-3.99-7.36s-4.02 2.28-4.02 7.36 1.29 7.39 4.02 7.39 3.99-2.28 3.99-7.39m16.91-6.5c0-1.03-.71-1.74-1.99-1.74-2.23 0-4.09 2.14-5.03 4.73h-.28l.06-4.4h-5.56v.61c2.12.39 2.64.9 2.64 2.51v9.42c0 1.7-.71 2.44-2.7 2.76v.61h8.71v-.64c-2.35-.29-3.02-.9-3.02-2.64v-4.21c0-2.89 1.67-6.49 3.44-6.49 1.06 0 1.19 1.25 2.28 1.25.9 0 1.45-.87 1.45-1.77m-.32 11.32c-.96 0-1.7.74-1.7 1.7s.74 1.7 1.7 1.7 1.7-.74 1.7-1.7-.74-1.7-1.7-1.7M174.22 7a2.51 2.51 0 0 0-2.51 2.5c0 1.38 1.13 2.48 2.51 2.48s2.47-1.1 2.47-2.48-1.1-2.5-2.47-2.5m0 4.54c-1.18 0-2.04-.92-2.04-2.04s.86-2.07 2.04-2.07c1.11 0 2.01.94 2.01 2.07s-.9 2.04-2.01 2.04"/><path fill="#000" d="M175.27 9.04c0-.46-.37-.83-.99-.83h-1.01v2.47h.51v-.82h.45l.48.82h.56l-.57-.9c.38-.1.57-.42.57-.74m-1.01.45h-.48v-.85h.48c.26 0 .5.13.5.4s-.21.45-.5.45"/><path fill="#D72228" d="M22.94 13.39 11.88 2.04.79 13.39h3.37v10.12h15.36V13.39z"/><path fill="#fff" d="M11.85 13.48h.2c.79-1.96 2.19-3.34 3.39-3.34.85 0 1.52.61 1.52 1.55 0 .82-.47 1.4-1.14 1.4-.44 0-.64-.23-.85-.44-.23-.23-.41-.5-.76-.5-1.05 0-2.25 2.34-2.25 4.18v1.78c0 1.58.41 1.93 2.19 2.17v.56H7.51v-.5c1.61-.2 2.14-.67 2.14-2.22v-5.36c0-1.14-.5-1.58-1.99-1.84v-.52h4.27l-.09 3.07z"/></g></svg>
+
   </div>
   <div class="sl-content">
     <h1 class="sl-h1">Table of Contents</h1>
@@ -883,9 +907,11 @@
       <div class="sl-feature-name">Team Branding — Branding Team Profile</div>
       <div class="sl-section-head" style="margin-top:18px;">Feature walkthroughs</div>
       <ol class="sl-numbered">
-        <li>Team lead (RPD) — create team profile → add team details → manage roster → invite agents → publish</li>
-        <li>Team lead (RPD) — edit team profile · manage agents · view live profile</li>
-        <li>Participating agent (Pro Dashboard) — receive invitation · accept · join team</li>
+        <li><a class="sl-toc-link" onclick="startFlow('create')">Team lead (Pro Dash → RPD) — Creating a team profile</a></li>
+        <li><a class="sl-toc-link" onclick="startFlow('manage')">Team lead (Pro Dash → RPD) — Managing team profile and members</a></li>
+        <li><a class="sl-toc-link" onclick="openMembership()">Participating agent (Pro Dash → RPD) — Joining team profile</a></li>
+        <li>Consumer (RDC) — Team search and discovery</li>
+        <li>Consumer (RDC) — Contacting a team</li>
       </ol>
       <div class="sl-recap">Recap + next steps</div>
     </div>
@@ -900,7 +926,7 @@
   <div class="intro-wrap">
     <div class="intro-overline">End-to-end walkthrough</div>
     <h1 class="intro-title">Free Branding<br>Team Profiles Alpha</h1>
-    <a class="intro-link" onclick="startFlow('create')">Get started</a>
+    <a class="intro-link" href="file:///Users/lho/Desktop/Team%20profile%20%20-%20Claude/team-profile-prototype-shareable.html">Get started</a>
   </div>
   <div class="intro-logo" id="introLogo"></div>
 </div>
@@ -1157,7 +1183,7 @@
               <div class="two-col">
                 <div>
                   <div class="field-foot" style="margin:0 0 6px;">Start year</div>
-                  <select id="startYear"><option>2020</option><option>2021</option><option>2019</option><option>2018</option></select>
+                  <select id="startYear"><option value="">Year started</option><option>2020</option><option>2021</option><option>2019</option><option>2018</option></select>
                 </div>
                 <div>
                   <div class="field-foot" style="margin:0 0 6px;">Start month</div>
@@ -1698,13 +1724,9 @@
             </button>
           </div>
         </div>
-        <div class="progress-track"><div class="progress-fill" style="width:100%;"></div></div>
-        <div class="score-pct">100%</div>
-        <div class="score-improve">
-          <a class="si-lead" onclick="showToast('Score breakdown')">How can I increase my score?</a>
-          <a onclick="go('s-form')">Years of experience</a>
-          <a onclick="go('s-form')">Specialties</a>
-        </div>
+        <div class="progress-track"><div class="progress-fill" id="scoreProgress" style="width:100%;"></div></div>
+        <div class="score-pct" id="scorePercent">100%</div>
+        <div class="score-improve" id="scoreImprove" style="display:none;"></div>
       </div>
 
       <div class="form-layout">
@@ -2206,6 +2228,7 @@
       const n = currentFlow==='manage' ? fullCount : invitedAgents.length;
       const c=document.getElementById('pCount'); if(c) c.textContent=n;
       const p=document.getElementById('pPlural'); if(p) p.textContent = n===1?'':'s';
+      renderScoreCard();
     }
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -2241,6 +2264,7 @@
   function startFlow(flow){
     currentFlow = flow;
     if(flow==='create') clearForm();   // create flow always begins with an empty form
+    if(flow==='manage') fillFormData(); // manage flow pre-loads the Keystone profile data
     document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.flow===flow));
     go(FLOW_ENTRY[flow]);
     closeMenu();
@@ -2251,6 +2275,7 @@
   // Edit team profile → the Branding team profile hub (editing begins from there).
   function openEditProfile(){
     currentFlow = 'manage';
+    fillFormData();
     document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.view==='editProfile'));
     go('s-profile');
     toggleMenu();
@@ -2259,6 +2284,7 @@
   // is reached from there), mirroring the Edit team profile entry.
   function openManageAgents(){
     currentFlow = 'manage';
+    fillFormData();
     document.querySelectorAll('#side-menu a').forEach(a=>a.classList.toggle('active', a.dataset.view==='manageAgents'));
     go('s-profile');
     toggleMenu();
@@ -2878,8 +2904,8 @@
     renderEmail('invitation');
   })();
 
-  // One-click: fill the entire page (the "Filled" state)
-  function fillForm(){
+  // Populate form fields with the known Keystone profile data (without navigating).
+  function fillFormData(){
     document.getElementById('teamName').value = 'Keystone Realty Group of Greater Chicago Area South Loop';
     document.getElementById('teamBio').value = "The Keystone Realty Group is a premier real estate team with over 20 years of combined experience serving the Greater Chicago area. Led by Samantha Lee, a top-producing agent ranked in the top 1% statewide, our team specializes in luxury residential sales, first-time buyer guidance, and investment property strategy.\n\nOur agents bring deep local knowledge, sharp negotiation skills, and a commitment to transparency at every step. Whether you're selling a family home or acquiring your next investment property, we deliver results with a personal touch.";
     areas.length = 0; ['South Loop','River North','Bronzeville'].forEach(a=>areas.push(a)); renderAreas();
@@ -2898,8 +2924,58 @@
     document.getElementById('tt').value = 'www.tiktok.com/keystonerealty';
     document.getElementById('x').value = 'www.x.com/keystonerealty';
     pickPhoto();
+  }
+
+  // One-click: fill the entire page (the "Filled" state)
+  function fillForm(){
+    fillFormData();
     document.getElementById('fillBtn').classList.add('on');
     go('s-form');
+  }
+
+  // ---- Profile completeness score ----
+  function calcProfileScore(){
+    const hasPhoto = document.getElementById('photoName').textContent !== 'No file selected';
+    const hasBio = document.getElementById('teamBio').value.trim().length > 0;
+    const hasAreas = areas.length > 0;
+    const hasYears = document.getElementById('startYear').value !== '';
+    const hasSpecialties = document.getElementById('specialties').value !== '';
+    const hasPhone = document.getElementById('phone1').value.trim().length > 0 || document.getElementById('phone2').value.trim().length > 0;
+    const hasWebsite = document.getElementById('website').value.trim().length > 0;
+    const hasSocial = ['fb','ig','li','yt','tt','x'].some(id=>(document.getElementById(id)||{}).value&&document.getElementById(id).value.trim().length>0);
+
+    let score = 0;
+    const missing = [];
+    if(hasPhoto)  score += 20; else missing.push({label:'Team photo',    hi:true});
+    if(hasBio)    score += 20; else missing.push({label:'Team bio',      hi:true});
+    if(hasAreas)  score += 20; else missing.push({label:'Areas served',  hi:true});
+    if(hasYears)  score += 6;  else missing.push({label:'Years of experience', hi:false});
+    if(hasSpecialties) score += 6; else missing.push({label:'Specialties', hi:false});
+    if(hasPhone)  score += 3;  else missing.push({label:'Phone number',  hi:false});
+    if(hasWebsite) score += 3; else missing.push({label:'Website',       hi:false});
+    if(hasSocial) score += 2;
+    // Ratings & Reviews (15%) + Testimonials (5%) auto-populate from the roster in the manage flow
+    if(currentFlow === 'manage') score += 20;
+
+    return { score: Math.min(score, 100), missing };
+  }
+
+  function renderScoreCard(){
+    const prog = document.getElementById('scoreProgress');
+    const pct  = document.getElementById('scorePercent');
+    const imp  = document.getElementById('scoreImprove');
+    if(!prog) return;
+    const { score, missing } = calcProfileScore();
+    prog.style.width = score + '%';
+    pct.textContent  = score + '%';
+    if(score >= 100 || missing.length === 0){
+      imp.style.display = 'none';
+    } else {
+      const top3 = missing.slice(0, 3);
+      imp.innerHTML = '<a class="si-lead" onclick="showToast(\'Score breakdown\')">How can I increase my score?</a>'
+        + top3.map(f=>`<div class="si-field"><a onclick="go('s-form')">${f.label}</a>${f.hi?'<span class="hi-badge">High Impact</span>':''}</div>`).join('');
+      imp.style.display = 'flex';
+    }
   }
   function clearForm(){
     document.querySelectorAll('#s-form input, #s-form textarea').forEach(i=>i.value='');
