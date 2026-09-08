@@ -1,0 +1,13 @@
+{
+  "name": "slack-issue-watcher",
+  "version": "1.0.0",
+  "description": "Watches Slack channels for unaddressed issues and DMs a daily summary",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@slack/web-api": "^7.0.0"
+  }
+}

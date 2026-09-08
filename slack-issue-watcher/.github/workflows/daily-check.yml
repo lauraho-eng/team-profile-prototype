@@ -1,0 +1,21 @@
+name: Daily Slack Issue Check
+
+on:
+  schedule:
+    - cron: "0 14 * * *"   # runs daily at 14:00 UTC — adjust for your timezone
+  workflow_dispatch: {}      # lets you trigger it manually from the Actions tab
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install
+      - run: npm start
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_USER_ID: ${{ secrets.SLACK_USER_ID }}
+          SLACK_CHANNEL_IDS: ${{ secrets.SLACK_CHANNEL_IDS }}
