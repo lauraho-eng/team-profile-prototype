@@ -7,6 +7,12 @@
       "runtimeArgs": ["run", "dev", "--prefix", "/Users/lho/.claude/plugins/cache/daisy/daisy/ea4afe77987a/shells/client-web"],
       "port": 5173,
       "autoPort": true
+    },
+    {
+      "name": "team-profile-static",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8123", "--directory", "/Users/lho/Desktop/Team profile  - Claude"],
+      "port": 8123
     }
   ]
 }
