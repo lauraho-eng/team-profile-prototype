@@ -8,7 +8,7 @@ metadata:
     in. Built with plain React + CSS to faithfully represent the legacy surface
     (pre-design-system). Used for design review and stakeholder walkthroughs.
   annotations:
-    github.com/project-slug: lauraho-eng/team-profile-prototype
+    github.com/project-slug: MoveRDC/team-profile-prototype
   tags:
     - prototype
     - design
