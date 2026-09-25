@@ -1,0 +1,20 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: team-profile-prototype
+  description: >
+    Mid-fidelity design prototype of the legacy realtor.com for Professionals
+    (Pro Dash) portal homepage — the first screen an agent sees after logging
+    in. Built with plain React + CSS to faithfully represent the legacy surface
+    (pre-design-system). Used for design review and stakeholder walkthroughs.
+  annotations:
+    github.com/project-slug: MoveRDC/team-profile-prototype
+  tags:
+    - prototype
+    - design
+    - pro-dash
+    - client
+spec:
+  type: website
+  lifecycle: experimental
+  owner: group:product-design
